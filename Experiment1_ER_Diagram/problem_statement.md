@@ -45,185 +45,131 @@ Design a database for patient management, appointments, medical records, and bil
    - Why you chose the entities and relationships.
    - How you modeled prerequisites or billing.
 
-# ER Diagram Submission - AsaiThambi M
+# ER Diagram Submission - Student Name
 
 ## Scenario Chosen:
-Hospital
+Hospital Database
 
 ## ER Diagram:
-![Screenshot 2025-04-29 083123](https://github.com/user-attachments/assets/4b5c26be-d9da-4cea-b369-df4e7b85d88c)
-
+![image (2)](https://github.com/user-attachments/assets/5586b2fd-e508-45c8-9072-0fe278afdccf)
 
 ## Entities and Attributes:
-- PATIENT
-
-P-ID
-
-PH-NO
-
-AGE
-
-GENDER
-
-- DOCTOR
-
-DEPT
-
-QUALIFICATION
-
-- NURSE
-
-N-ID
-
-E-ID
-
-- RECEPTIONIST (No specific attributes shown)
-
-- ROOMS
-
-R-ID
-
-TYPE
-
-CAPACITY
-
-- BILLS
-
-B-ID
-
-P-ID
-
-AMOUNT
-
-- TEST REPORT
-
-TEST-TYPE
-
-P-ID
-
-RESULT
-
-- RECORDS
-
-R-NO
-
-APP-NO
-
-
+ Student
+ 1. StudentID (Primary Key)
+ 2. FirstName
+ 3. LastName
+ 4. DateOfBirth
+ 5. Email
+ 6. PhoneNumber
+ 7. EnrollmentDate
+ 8. DepartmentID (Foreign Key)
+ Faculty
+ 1. FacultyID (Primary Key)
+ 2. FirstName
+ 3. LastName
+ 4. Email
+ 5. PhoneNumber
+ 6. HireDate
+ 7. DepartmentID (Foreign Key)
+ Department
+ 1. DepartmentID(Primary Key)
+ 2. DepartmentName
+ 3. Location
+ Course
+ 1. CourseID (Primary Key)
+ 2. CourseName
+ 3. CourseCode
+ 4. Credits
+ 5. DepartmentID (Foreign Key)
+ Enrollment
+ 1. EnrollmentID (Primary Key)
+ 2. StudentID (Foreign Key)
+ 3. CourseID (Foreign Key)
+ 4. EnrollmentDate
+ 5. Grade
+Class
+ 1. ClassID (Primary Key)
+ 2. CourseID (Foreign Key)
+ 3. FacultyID (Foreign Key)
+ 4. Semester
+ 5. Year
+ 6. Schedule
+ Advising
+ 1. AdvisingID (Primary Key)
+ 2. StudentID (Foreign Key)
+ 3. FacultyID (Foreign Key)
+ 4. AdvisingDate
+ Prerequisite
+ 1.Course name (Foreign Key)
+ 2.Course code code (primary Key)
+ 3.Year
+ 4.Credits
 
 ## Relationships and Constraints:
-- CONSULTS
+ Student- Department
+ 1. "Belongs to" Relationship
+ 2. Astudent belongs to one department.
+ 3. Adepartment can have multiple students.
+ Faculty- Department
+ 1. "Belongs to" Relationship
+ 2. Afaculty member belongs to one department.
+ 3. Adepartment can have multiple faculty members.
+ Course- Department
+ 1. "Offered by" Relationship
+ 2. Acourse isoffered by one department.
+ 3. Adepartment can offer multiple courses.
+ Enrollment- Student
+ 1. "Enrolled in" Relationship
+ 2. Astudent can enroll in multiple courses.
+ 3. Eachenrollment record is associated with one student.
+ Enrollment- Course
+ 1. "Includes" Relationship
+ 2. Acourse can havemultiple students enrolled.
+ 3. Eachenrollment record is associated with one course.
+Class- Course
+ 1. "Teaches" Relationship
+ 2. Aclass is based on one course.
+ 3. Acourse can havemultiple classes.
+ Class- Faculty
+ 1. "Taughtby" Relationship
+ 2. Aclass is taught by one faculty member.
+ 3. Afaculty member can teach multiple classes.
+ Advising- Student
+ 1. "Advises" Relationship
+ 2. Afaculty member advises multiple students.
+ 3. Eachadvising record is associated with one student.
+ Advising- Faculty
+ 1. "Provides" Relationship
+ 2. Astudent is advised by one faculty member.
+ 3. Eachadvising record is associated with one faculty member
+## Extension (Prerequisite):
+The PREREQUISITE entity models the relationship between courses and their required prerequisites. Here's how it's designed:
 
-Between: PATIENT and DOCTOR
+Entity Name: PREREQUISITE
 
-Constraint: Many-to-Many (M:N)
+Attributes:
 
-A patient can consult multiple doctors, and a doctor can be consulted by multiple patients.
+Course Code: Refers to the main course.
 
-- PAYS
+Prerequisite Code: Refers to the required prerequisite course.
 
-Between: PATIENT and BILLS
+Credits: May refer to the credit requirement for the prerequisite.
 
-Constraint: One-to-Many (1:N)
+Year: Could indicate the academic year the prerequisite is tied to.
 
-A patient can pay many bills, but each bill is linked to one patient.
+Relationships:
 
-- HAS
+"requires" relationship connects the COURSE and PREREQUISITE entities.
 
-Between: PATIENT and TEST REPORT
-
-Constraint: One-to-Many (1:N)
-
-A patient can have multiple test reports, but each test report is linked to one patient.
-
-- GOVERNS
-
-Between: NURSE and ROOMS
-
-Constraint: Many-to-Many (M:N)
-
-A nurse can govern multiple rooms, and a room can be governed by multiple nurses.
-
-- MAINTAINS
-
-Between: RECEPTIONIST and RECORDS
-
-Constraint: One-to-Many (1:M)
-
-A receptionist maintains multiple records.
-
-
-
-## Extension (Prerequisite / Billing):
--Entities Involved:
-PATIENT,BILLS
-
-Relationship:
-PAYS (between PATIENT and BILLS)
-
-Attributes Used:
-In PATIENT: P-ID
-
-In BILLS: B-ID, P-ID, AMOUNT
-
-- Modeling Explanation:
-Each PATIENT can pay multiple BILLS — this is shown via a 1:N relationship from PATIENT to BILLS.
-
-The PAYS relationship logically ties each bill to a patient using P-ID as a foreign key in the BILLS entity.
-
-Each BILL has a unique B-ID, an AMOUNT, and references a single PATIENT (P-ID).
-
-This approach simplifies billing by:
-
-Allowing historical tracking of multiple bills per patient.
-
-Associating each billing record with the corresponding patient.
-
+This implies that a course requires the course listed in Prerequisite Code to be completed before enrollment.
 ## Design Choices:
-PATIENT, DOCTOR, NURSE, RECEPTIONIST
+When selecting entities, relationships, and assumptions for a specific task or concept in Unreal Engine, I focus on the following key points:
 
-Chosen as entities because they represent key actors in the hospital system, each with their own attributes and responsibilities.
+Entities: These are the core components involved in the task. For example, when discussing Physical Material, I chose this entity because it directly relates to defining how objects behave in terms of physics—whether they are bouncy, slippery, or heavy. The material properties like friction and density are fundamental for interaction in a 3D environment.
 
-ROOMS
+Relationships: The relationship between entities is crucial for understanding how they interact with each other. For instance, Physical Material and surfaces/objects have a relationship where the material defines how an object behaves physically when it collides, slides, or interacts with other objects. This relationship helps define real-world-like interactions in a virtual scene.
 
-Modeled as a separate entity to manage space allocation, with attributes like TYPE and CAPACITY.
-
-BILLS, TEST REPORT, RECORDS
-
-Represent important operational and administrative data, each requiring independent storage and relationships to patients or staff.
-
--  Relationship Choices:
-CONSULTS (PATIENT—DOCTOR)
-
-Many-to-many to reflect real-life scenarios where multiple patients consult multiple doctors.
-
-PAYS (PATIENT—BILLS)
-
-One-to-many, as one patient can pay multiple bills.
-
-HAS (PATIENT—TEST REPORT)
-
-One-to-many, since a patient may have several test reports.
-
-GOVERNS (NURSE—ROOMS)
-
-Many-to-many because nurses may be assigned to multiple rooms and rooms may be overseen by multiple nurses during shifts.
-
-MAINTAINS (RECEPTIONIST—RECORDS)
-
-One-to-many, as one receptionist maintains several patient records.
-
+Assumptions: Assumptions are used to simplify complex systems or to fill in gaps where more specific details aren't provided. For example, when selecting the impact of a Physical Material, I assumed that users might be looking for how it affects objects' physical interactions in the scene, as this is the primary function in Unreal Engine, which focuses on realistic simulations.
 ## RESULT
-The ER model successfully captures the core components of a hospital management system, including patients, doctors, nurses, rooms, billing, test reports, and administrative functions. It clearly defines:
-
-Entities such as PATIENT, DOCTOR, NURSE, RECEPTIONIST, ROOMS, BILLS, TEST REPORT, and RECORDS.
-
-Relationships like CONSULTS, PAYS, HAS, GOVERNS, and MAINTAINS to show interactions between the entities.
-
-Attributes that support effective tracking of patient details, test outcomes, billing amounts, and room allocations.
-
-Constraints (1:N, M:N) that mirror real-world hospital operations, allowing many-to-many or one-to-many interactions where appropriate.
-
-This model lays the groundwork for designing a relational database or hospital software system that ensures accurate data flow, traceability of patient care, and efficient administrative management.
-
+Those the ER DIAGRAM is implemented successfully
 
